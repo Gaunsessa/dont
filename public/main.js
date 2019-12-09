@@ -1,12 +1,20 @@
 var Points = 0;
 var Time = 30;
-var HighScore = document.cookie;
-if (HighScore === "") HighScore = 0;
+if (document.cookie === "") {
+    var cookie = {"highScore": 0, "hitColor": "black", "blankColor": "white", "backColor": "black", "missColor": "#ff6363", "textColor": "white", "colors": ["#ceff38", "#0398fc"], "key": 90};
+} else {
+    var cookie = JSON.parse(document.cookie);
+}
+document.cookie = JSON.stringify(cookie);
+var HighScore = cookie["highScore"];
 
-var Colors = ["#ceff38", "#0398fc"];
-var black = "black";
-var white = "white";
-var KeyNum = 90;
+var Colors = cookie["colors"];
+var black = cookie["hitColor"];
+var white = cookie["blankColor"];
+var red = cookie["missColor"];
+var BackgroundColor = cookie["backColor"];
+var KeyNum = cookie["key"];
+var TextColor = cookie["textColor"];
 
 var CurrentTile;
 var First = true;
@@ -40,7 +48,6 @@ function randomBlack(lastTile) {
         return;
     }
 
-    console.log(pick);
     turnBlack(pick);
 }
 
@@ -52,14 +59,14 @@ function tileClick(e, tileNum) {
         document.getElementById('clickStop').style.display = 'block';
 
         document.getElementsByClassName("tile")[tileNum].style.transition = "background 0.1s ease";
-        document.getElementsByClassName("tile")[tileNum].style.background = "#ff6363";
+        document.getElementsByClassName("tile")[tileNum].style.background = red;
         setTimeout(() => {
             document.getElementsByClassName("tile")[tileNum].style.transition = "background 0.3s ease";
         }, 10);
 
         if (Points > HighScore) HighScore = Points;
         document.getElementById('highScore').innerHTML = HighScore;
-        document.cookie = HighScore;
+        cookieUpdate();
     } else {
         if (First === true) {
             First = false;
@@ -72,7 +79,7 @@ function tileClick(e, tileNum) {
 
                     for (var i = 0; i < 16; i++) {
                         document.getElementsByClassName("tile")[i].style.transition = "background 0.1s ease";
-                        document.getElementsByClassName("tile")[i].style.background = "#ff6363";
+                        document.getElementsByClassName("tile")[i].style.background = red;
 
                         setTimeout(() => {
                             document.getElementsByClassName("tile")[i].style.transition = "background 0.3s ease";
@@ -81,7 +88,7 @@ function tileClick(e, tileNum) {
 
                     if (Points > HighScore) HighScore = Points;
                     document.getElementById('highScore').innerHTML = HighScore;
-                    document.cookie = HighScore;
+                    cookieUpdate();
 
                     setTimeout(() => {document.getElementById('clickStop').onclick = function(){reset()};}, 500);
                 }
@@ -137,13 +144,88 @@ function reset() {
     randomBlack();
 }
 
+function render() {
+    for (var i = 0; i < 16; i++) {
+        document.getElementsByClassName("tile")[i].style.background = white;
+    }
+
+    for (var i = 0; i < 3; i++) {
+        document.getElementsByClassName('scoreText')[i].style.color = TextColor;
+    }
+
+    document.body.style.backgroundColor = BackgroundColor;
+
+    reset();
+}
+
+function cookieUpdate() {
+    cookie["colors"] = Colors;
+    cookie["hitColor"] = black;
+    cookie["blankColor"] = white;
+    cookie["missColor"] = red;
+    cookie["backColor"] = BackgroundColor;
+    cookie["key"] = Number(KeyNum);
+    cookie["highScore"] = HighScore;
+    cookie["textColor"] = TextColor;
+
+    document.cookie = JSON.stringify(cookie);
+}
+
+function configOpen() {
+    document.getElementById('configCon').style.width = '500px'; 
+    document.getElementById('clickStop').style.display = 'block'; 
+    document.getElementById('clickStop').onclick = function(){document.getElementById("configCon").style.width = "0px"; document.getElementById("clickStop").onclick = ""; document.getElementById("clickStop").style.display = "none"; reset();}
+}
+
 window.onload = function() {
     document.body.addEventListener("keydown", e => {
-        if (e.which === KeyNum) {
+        if (e.which === Number(KeyNum)) {
             var clickEvent = document.createEvent('MouseEvents');
             clickEvent.initEvent("mousedown", true, true);
             CurrentTile.dispatchEvent(clickEvent);
         }
+    });
+
+    document.getElementById('hitKey').value = KeyNum;
+    document.getElementById('hitKey').addEventListener("change", () => {
+        KeyNum = document.getElementById('hitKey').value;
+        cookieUpdate();
+        render();
+    });
+    
+    document.getElementById('hitColor').value = black;
+    document.getElementById('hitColor').addEventListener("change", () => {
+        black = document.getElementById('hitColor').value;
+        cookieUpdate();
+        render();
+    });
+
+    document.getElementById('blankColor').value = white;
+    document.getElementById('blankColor').addEventListener("change", () => {
+        white = document.getElementById('blankColor').value;
+        cookieUpdate();
+        render();
+    });
+
+    document.getElementById('missColor').value = red;
+    document.getElementById('missColor').addEventListener("change", () => {
+        red = document.getElementById('missColor').value;
+        cookieUpdate();
+        render();
+    });
+
+    document.getElementById('backColor').value = BackgroundColor;
+    document.getElementById('backColor').addEventListener("change", () => {
+        BackgroundColor = document.getElementById('backColor').value;
+        cookieUpdate();
+        render();
+    });
+
+    document.getElementById('textColor').value = TextColor;
+    document.getElementById('textColor').addEventListener("change", () => {
+        TextColor = document.getElementById('textColor').value;
+        cookieUpdate();
+        render();
     });
 
     document.addEventListener('contextmenu', function (e) {
@@ -153,9 +235,7 @@ window.onload = function() {
     document.body.addEventListener('mousemove', e => {CurrentTile = e.target});
 
     document.getElementById('highScore').innerHTML = HighScore;
-    randomBlack();
-    randomBlack();
-    randomBlack();
+    render();
 };
 
 //ADD ANTI CHEAT LIKE IF CURRENTTILE === TILE YOU KNOW

@@ -9,19 +9,57 @@
     <audio src="sounds/pop.flac" id="hitSound1"></audio>
     <title>Dont</title>
 </head>
-<body>        
+<body>
+    <div onclick="configOpen()" id="configCon">
+        <h1 style="color: #a5a5a5; font-size: 30px; text-align: center;">Login</h1>
+        <div>
+            <p>Username:</p>
+            <input type="text" name="username" id="usernameInput">
+        </div>
+        <div id="passwordDiv">
+            <p>Password:</p>
+            <input type="password" name="password" id="passwordInput">
+        </div>
+        <h1 style="color: #a5a5a5; font-size: 30px; text-align: center;">Config</h1>
+        <div>
+            <p>Hit Key:</p>
+            <input type="text" name="hitKey" id="hitKey">
+        </div>
+        <div>
+            <p>Hit Tile Color:</p>
+            <input type="text" name="hitColor" id="hitColor">
+        </div>
+        <div>
+            <p>Blank Tile Color:</p>
+            <input type="text" name="blankColor" id="blankColor">
+        </div>
+        <div>
+            <p>Miss Tile Color:</p>
+            <input type="text" name="missColor" id="missColor">
+        </div>
+        <div>
+            <p>Background Color:</p>
+            <input type="text" name="backColor" id="backColor">
+        </div>
+        <div>
+            <p>Text Color:</p>
+            <input type="text" name="textColor" id="textColor">
+        </div>
+    </div>
+
+    <div onclick="document.getElementById('onlineCon').style.width = '500px'" id="onlineCon"></div>
     <div id="scoreCon">
         <center>
             <div>
-                <h2>HIGHSCORE</h2>
+                <h2 class="scoreText">HIGHSCORE</h2>
                 <h1 id="highScore" style="color: #36ff6b;">0</h1>
             </div>
             <div>
-                <h2>POINTS</h2>
+                <h2 class="scoreText">POINTS</h2>
                 <h1 id="points" style="color: #0398fc;">0</h1>
             </div>
             <div>
-                <h2>TIME</h2>
+                <h2 class="scoreText">TIME</h2>
                 <h1 id="timer" style="color: #ff6363;">30</h1>
             </div>
         </center>
