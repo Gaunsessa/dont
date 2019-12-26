@@ -174,7 +174,13 @@ function cookieUpdate() {
 function configOpen() {
     document.getElementById('configCon').style.width = '500px'; 
     document.getElementById('clickStop').style.display = 'block'; 
-    document.getElementById('clickStop').onclick = function(){document.getElementById("configCon").style.width = "0px"; document.getElementById("clickStop").onclick = ""; document.getElementById("clickStop").style.display = "none"; reset();}
+    document.getElementById('clickStop').onclick = function(){document.getElementById("configCon").style.width = "0px"; document.getElementById("onlineCon").style.width = "0px"; document.getElementById("clickStop").onclick = ""; document.getElementById("clickStop").style.display = "none"; reset();}
+}
+
+function onlineOpen() {
+    document.getElementById('onlineCon').style.width = '500px'; 
+    document.getElementById('clickStop').style.display = 'block'; 
+    document.getElementById('clickStop').onclick = function(){document.getElementById("configCon").style.width = "0px"; document.getElementById("onlineCon").style.width = "0px"; document.getElementById("clickStop").onclick = ""; document.getElementById("clickStop").style.display = "none"; reset();}
 }
 
 window.onload = function() {

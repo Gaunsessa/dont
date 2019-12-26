@@ -99,4 +99,12 @@ section {
     border-right: 8px solid #15151566;
     background-color: #101012;
     transition: width 0.3s ease;
+    z-index: 500;
+}
+
+#onlineCon div p {
+    left: 0%;
+    color: rgb(145, 145, 145);
+    margin: 10px;
+    font-size: 25px;
 }
