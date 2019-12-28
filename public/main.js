@@ -20,9 +20,19 @@ var CurrentTile;
 var First = true;
 var Combo = 0;
 var Tiles = {};
+var userData;
 
 for (var i = 0; i < 16; i++) {
     Tiles[i] = {"color": "white"};
+}
+
+function login() {
+    $.post("http://localhost:1273/api/login", {username: document.getElementById('usernameInput').value, password: document.getElementById('passwordInput').value}, data => {
+        data = JSON.parse(data);
+        if (data["status"] === "fail") return;
+        document.getElementById('loginBtn').innerHTML = "Logged In";
+        userData = data["userData"];
+    });
 }
 
 function turnBlack(tileNum) {
@@ -53,6 +63,7 @@ function randomBlack(lastTile) {
 
 function tileClick(e, tileNum) {
     if (e.which === 3) return;
+    if (tileNum != Number(String(CurrentTile.onmousedown).replace("function onmousedown(event) {\ntileClick(event, ", "").replace(")\n}", ""))) return console.log("Cheater");
     if (Tiles[tileNum]["color"] === "white") {
         clearInterval(timerLoop);
         setTimeout(() => {document.getElementById('clickStop').onclick = function(){reset()};}, 500);
@@ -174,13 +185,23 @@ function cookieUpdate() {
 function configOpen() {
     document.getElementById('configCon').style.width = '500px'; 
     document.getElementById('clickStop').style.display = 'block'; 
-    document.getElementById('clickStop').onclick = function(){document.getElementById("configCon").style.width = "0px"; document.getElementById("onlineCon").style.width = "0px"; document.getElementById("clickStop").onclick = ""; document.getElementById("clickStop").style.display = "none"; reset();}
+    document.getElementById('clickStop').onclick = function(){document.getElementById("configCon").style.width = "0px"; document.getElementById("onlineCon").style.width = "0px"; setTimeout(() => {var sheet = window.document.styleSheets[0]; sheet.insertRule('#onlineCon * {display: none;}', sheet.cssRules.length);}, 200); document.getElementById("clickStop").onclick = ""; document.getElementById("clickStop").style.display = "none"; reset();};
 }
 
 function onlineOpen() {
+    var sheet = window.document.styleSheets[0];
+    sheet.insertRule('#onlineCon * {display: revert;}', sheet.cssRules.length);
+    $.get("http://localhost:1273/api/leaderboard", result => {
+        document.getElementById('onlineCon').children[1].children[1].innerHTML = `<span style="color: gold">1:</span> ${result[1]["username"]}, ${result[1]["score"]}`;
+        document.getElementById('onlineCon').children[1].children[2].innerHTML = `<span style="color: silver">2:</span> ${result[2]["username"]}, ${result[2]["score"]}`;
+        document.getElementById('onlineCon').children[1].children[3].innerHTML = `<span style="color: #965b30">3:</span> ${result[3]["username"]}, ${result[3]["score"]}`;
+        document.getElementById('onlineCon').children[1].children[4].innerHTML = `4: ${result[4]["username"]}, ${result[1]["score"]}`;
+        document.getElementById('onlineCon').children[1].children[5].innerHTML = `5: ${result[5]["username"]}, ${result[1]["score"]}`;
+    });
+    document.getElementById('onlineCon').children[1].children[1].innerHTML = 
     document.getElementById('onlineCon').style.width = '500px'; 
     document.getElementById('clickStop').style.display = 'block'; 
-    document.getElementById('clickStop').onclick = function(){document.getElementById("configCon").style.width = "0px"; document.getElementById("onlineCon").style.width = "0px"; document.getElementById("clickStop").onclick = ""; document.getElementById("clickStop").style.display = "none"; reset();}
+    document.getElementById('clickStop').onclick = function(){document.getElementById("configCon").style.width = "0px"; document.getElementById("onlineCon").style.width = "0px"; setTimeout(() => {var sheet = window.document.styleSheets[0]; sheet.insertRule('#onlineCon * {display: none;}', sheet.cssRules.length);}, 200); document.getElementById("clickStop").onclick = ""; document.getElementById("clickStop").style.display = "none"; reset();};
 }
 
 window.onload = function() {
@@ -243,5 +264,3 @@ window.onload = function() {
     document.getElementById('highScore').innerHTML = HighScore;
     render();
 };
-
-//ADD ANTI CHEAT LIKE IF CURRENTTILE === TILE YOU KNOW

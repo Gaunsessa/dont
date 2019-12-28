@@ -1,0 +1,10 @@
+{
+    "Gauns": {
+        "password": "yes",
+        "userData" : {
+            "username": "Gauns",
+            "highscore": 300,
+            "avatar": "URL"
+        }
+    }
+}
