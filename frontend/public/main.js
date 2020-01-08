@@ -192,11 +192,12 @@ function onlineOpen() {
     var sheet = window.document.styleSheets[0];
     sheet.insertRule('#onlineCon * {display: revert;}', sheet.cssRules.length);
     $.get("http://localhost:1273/api/leaderboard", result => {
-        document.getElementById('onlineCon').children[1].children[1].innerHTML = `<span style="color: gold">1:</span> ${result[1]["username"]}, ${result[1]["score"]}`;
-        document.getElementById('onlineCon').children[1].children[2].innerHTML = `<span style="color: silver">2:</span> ${result[2]["username"]}, ${result[2]["score"]}`;
-        document.getElementById('onlineCon').children[1].children[3].innerHTML = `<span style="color: #965b30">3:</span> ${result[3]["username"]}, ${result[3]["score"]}`;
-        document.getElementById('onlineCon').children[1].children[4].innerHTML = `4: ${result[4]["username"]}, ${result[1]["score"]}`;
-        document.getElementById('onlineCon').children[1].children[5].innerHTML = `5: ${result[5]["username"]}, ${result[1]["score"]}`;
+        result = result.scores;
+        document.getElementById('onlineCon').children[1].children[1].innerHTML = `<span style="color: gold">1:</span> ${result[0]["user"]}, ${result[0]["score"]}`;
+        document.getElementById('onlineCon').children[1].children[2].innerHTML = `<span style="color: silver">2:</span> ${result[1]["user"]}, ${result[1]["score"]}`;
+        document.getElementById('onlineCon').children[1].children[3].innerHTML = `<span style="color: #965b30">3:</span> ${result[2]["user"]}, ${result[2]["score"]}`;
+        document.getElementById('onlineCon').children[1].children[4].innerHTML = `4: ${result[3]["user"]}, ${result[3]["score"]}`;
+        document.getElementById('onlineCon').children[1].children[5].innerHTML = `5: ${result[4]["user"]}, ${result[4]["score"]}`;
     });
     document.getElementById('onlineCon').children[1].children[1].innerHTML = 
     document.getElementById('onlineCon').style.width = '500px'; 
