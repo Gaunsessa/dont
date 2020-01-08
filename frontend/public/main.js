@@ -199,7 +199,7 @@ function onlineOpen() {
         document.getElementById('onlineCon').children[1].children[4].innerHTML = `4: ${result[3]["user"]}, ${result[3]["score"]}`;
         document.getElementById('onlineCon').children[1].children[5].innerHTML = `5: ${result[4]["user"]}, ${result[4]["score"]}`;
     });
-    document.getElementById('onlineCon').children[1].children[1].innerHTML = 
+    //document.getElementById('onlineCon').children[1].children[1].innerHTML = 
     document.getElementById('onlineCon').style.width = '500px'; 
     document.getElementById('clickStop').style.display = 'block'; 
     document.getElementById('clickStop').onclick = function(){document.getElementById("configCon").style.width = "0px"; document.getElementById("onlineCon").style.width = "0px"; setTimeout(() => {var sheet = window.document.styleSheets[0]; sheet.insertRule('#onlineCon * {display: none;}', sheet.cssRules.length);}, 200); document.getElementById("clickStop").onclick = ""; document.getElementById("clickStop").style.display = "none"; reset();};
