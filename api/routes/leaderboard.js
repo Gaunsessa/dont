@@ -23,7 +23,7 @@ router.get('/', (req, res, next) => {
                 })
             });
         })
-        .catch(err => console.log(err));
+        .catch(err => res.status(500).sendFile(errorBird));
 });
 
 router.post('/', (req, res, next) => {
@@ -43,12 +43,12 @@ router.post('/', (req, res, next) => {
                             message: 'Score submitted'
                         });
                     })
-                    .catch(err => res.status(500).json({ error: errorBird }));
+                    .catch(err => res.status(500).sendFile(errorBird));
             } else {
                 res.status(404).json({ 'error': 'No user' });
             }
         })
-        .catch(err => res.status(500).json({ error: errorBird }));
+        .catch(err => res.status(500).sendFile(errorBird));
 });
 
 module.exports = router;

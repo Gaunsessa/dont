@@ -21,10 +21,10 @@ router.get('/', (req, res, next) => {
                 })
             });
         })
-        .catch(err => res.status(500).json({ error: errorBird }));
+        .catch(err => res.status(500).sendFile(errorBird));
 });
 
-router.post('/', (req, res, next) => {
+router.post('/signup', (req, res, next) => {
     User.findOne({ $or:[ { name: req.body.name }, { email: req.body.email } ] })
         .then(doc => {
             if (doc) return res.status(409).json({ error: 'dupe' });
@@ -41,9 +41,9 @@ router.post('/', (req, res, next) => {
                         message: 'User created'
                     });
                 })
-                .catch(err => res.status(500).json({ error: errorBird }));
+                .catch(err => res.status(500).sendFile(errorBird));
         })
-        .catch(err => res.status(500).json({ error: errorBird }));
+        .catch(err => res.status(500).sendFile(errorBird));
 });
 
 module.exports = router;
