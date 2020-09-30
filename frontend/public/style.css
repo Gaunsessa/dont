@@ -24,9 +24,9 @@ body {
 
 #gameCon {
     position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
+    left: calc(50% - 345px);
+    top: calc(50% - 345px);
+    /* transform: translate(-50%, -50%); */
     cursor: url('cursor2.png') 50 50, auto;
 }
 
