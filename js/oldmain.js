@@ -20,19 +20,9 @@ var CurrentTile;
 var First = true;
 var Combo = 0;
 var Tiles = {};
-var userData;
 
 for (var i = 0; i < 16; i++) {
     Tiles[i] = {"color": "white"};
-}
-
-function login() {
-    $.post("http://localhost:1273/api/login", {username: document.getElementById('usernameInput').value, password: document.getElementById('passwordInput').value}, data => {
-        data = JSON.parse(data);
-        if (data["status"] === "fail") return;
-        document.getElementById('loginBtn').innerHTML = "Logged In";
-        userData = data["userData"];
-    });
 }
 
 function turnBlack(tileNum) {
@@ -180,28 +170,6 @@ function cookieUpdate() {
     cookie["textColor"] = TextColor;
 
     document.cookie = JSON.stringify(cookie);
-}
-
-function configOpen() {
-    document.getElementById('configCon').style.width = '500px'; 
-    document.getElementById('clickStop').style.display = 'block'; 
-    document.getElementById('clickStop').onclick = function(){document.getElementById("configCon").style.width = "0px"; document.getElementById("onlineCon").style.width = "0px"; setTimeout(() => {var sheet = window.document.styleSheets[0]; sheet.insertRule('#onlineCon * {display: none;}', sheet.cssRules.length);}, 200); document.getElementById("clickStop").onclick = ""; document.getElementById("clickStop").style.display = "none"; reset();};
-}
-
-function onlineOpen() {
-    var sheet = window.document.styleSheets[0];
-    sheet.insertRule('#onlineCon * {display: revert;}', sheet.cssRules.length);
-    $.get("http://localhost:1273/api/leaderboard", result => {
-        result = result.scores;
-        document.getElementById('onlineCon').children[1].children[1].innerHTML = `<span style="color: gold">1:</span> ${result[0]["user"]}, ${result[0]["score"]}`;
-        document.getElementById('onlineCon').children[1].children[2].innerHTML = `<span style="color: silver">2:</span> ${result[1]["user"]}, ${result[1]["score"]}`;
-        document.getElementById('onlineCon').children[1].children[3].innerHTML = `<span style="color: #965b30">3:</span> ${result[2]["user"]}, ${result[2]["score"]}`;
-        document.getElementById('onlineCon').children[1].children[4].innerHTML = `4: ${result[3]["user"]}, ${result[3]["score"]}`;
-        document.getElementById('onlineCon').children[1].children[5].innerHTML = `5: ${result[4]["user"]}, ${result[4]["score"]}`;
-    });
-    document.getElementById('onlineCon').style.width = '500px'; 
-    document.getElementById('clickStop').style.display = 'block'; 
-    document.getElementById('clickStop').onclick = function(){document.getElementById("configCon").style.width = "0px"; document.getElementById("onlineCon").style.width = "0px"; setTimeout(() => {var sheet = window.document.styleSheets[0]; sheet.insertRule('#onlineCon * {display: none;}', sheet.cssRules.length);}, 200); document.getElementById("clickStop").onclick = ""; document.getElementById("clickStop").style.display = "none"; reset();};
 }
 
 window.onload = function() {
